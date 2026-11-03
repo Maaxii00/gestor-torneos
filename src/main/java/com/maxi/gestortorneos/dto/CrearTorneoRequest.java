@@ -6,6 +6,5 @@ import jakarta.validation.constraints.Size;
 
 public record CrearTorneoRequest(
         @NotBlank @Size(max = 120) String nombre,
-        @NotNull FormatoTorneo formato,
-        @NotNull Long organizadorId
+        @NotNull FormatoTorneo formato
 ) {}

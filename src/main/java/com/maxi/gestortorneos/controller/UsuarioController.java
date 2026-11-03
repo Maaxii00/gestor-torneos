@@ -26,8 +26,7 @@ public class UsuarioController {
         Usuario creado = usuarioService.registrar(
                 peticion.email(),
                 peticion.password(),
-                peticion.nombre(),
-                peticion.rol()
+                peticion.nombre()
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioResponse.desde(creado));
     }

@@ -6,7 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import java.util.List;
 
 @RestController
@@ -20,9 +20,12 @@ public class TorneoController {
     }
 
     @PostMapping
-    public ResponseEntity<TorneoResponse> crear(@Valid @RequestBody CrearTorneoRequest peticion) {
+    public ResponseEntity<TorneoResponse> crear(
+            @Valid @RequestBody CrearTorneoRequest peticion,
+            @AuthenticationPrincipal Long organizadorId) {
+
         TorneoResponse creado = torneoService.crear(
-                peticion.nombre(), peticion.formato(), peticion.organizadorId());
+                peticion.nombre(), peticion.formato(), organizadorId);
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
 
