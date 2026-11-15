@@ -161,4 +161,4 @@ src/main/java/com/maxi/gestortorneos/
 ---
 
 ## Autor
-**Maximiliano González Segura** · Desarrollador DAM · [GitHub](https://github.com/Maaxii00)
+**Maximiliano González Segura** · Desarrollador backend Java y Python · [GitHub](https://github.com/Maaxii00)
