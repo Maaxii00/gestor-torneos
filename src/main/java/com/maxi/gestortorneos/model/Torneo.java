@@ -1,6 +1,7 @@
     package com.maxi.gestortorneos.model;
 
 
+    import com.maxi.gestortorneos.exception.ConflictoException;
     import jakarta.persistence.*;
     import org.hibernate.annotations.CreationTimestamp;
     import org.hibernate.annotations.JdbcTypeCode;
@@ -17,7 +18,7 @@
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @Column(nullable = false, unique = false, length = 120)
+        @Column(nullable = false, length = 120)
         private String nombre;
 
         @Enumerated(EnumType.STRING)
@@ -47,6 +48,13 @@
             this.organizador = organizador;
         }
 
+        public void iniciar() {
+            if (estado != EstadoTorneo.ABIERTO) {
+                throw new ConflictoException(
+                        "El torneo no se puede iniciar: está " + estado);
+            }
+            this.estado = EstadoTorneo.EN_CURSO;
+        }
         public Long getId() {
             return id;
         }
@@ -73,14 +81,6 @@
 
         public void setNombre(String nombre) {
             this.nombre = nombre;
-        }
-
-        public void setFormato(FormatoTorneo formato) {
-            this.formato = formato;
-        }
-
-        public void setEstado(EstadoTorneo estado) {
-            this.estado = estado;
         }
 
     }
