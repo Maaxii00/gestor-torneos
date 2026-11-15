@@ -1,0 +1,8 @@
+package com.maxi.gestortorneos.repository;
+
+import com.maxi.gestortorneos.model.Partido;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PartidoRepository extends JpaRepository<Partido, Long> {
+    long countBySerieId(Long serieId);
+}
