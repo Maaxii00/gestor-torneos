@@ -5,7 +5,6 @@ import com.maxi.gestortorneos.dto.InscripcionResponse;
 import com.maxi.gestortorneos.service.InscripcionService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +20,12 @@ public class InscripcionController {
     }
 
     @PostMapping("/api/inscripciones")
-    public ResponseEntity<InscripcionResponse> inscribir(
+    @ResponseStatus(HttpStatus.CREATED)
+    public InscripcionResponse inscribir(
             @Valid @RequestBody CrearInscripcionRequest peticion,
             @AuthenticationPrincipal Long solicitanteId) {
 
-        InscripcionResponse creada = inscripcionService.inscribir(
-                peticion.torneoId(), peticion.equipoId(), solicitanteId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(creada);
+        return inscripcionService.inscribir(peticion.torneoId(), peticion.equipoId(), solicitanteId);
     }
 
     @GetMapping("/api/torneos/{torneoId}/inscripciones")

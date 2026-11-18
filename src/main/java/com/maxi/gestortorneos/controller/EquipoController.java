@@ -5,7 +5,6 @@ import com.maxi.gestortorneos.dto.EquipoResponse;
 import com.maxi.gestortorneos.service.EquipoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
@@ -22,13 +21,12 @@ public class EquipoController {
     }
 
     @PostMapping
-    public ResponseEntity<EquipoResponse> crear(
+    @ResponseStatus(HttpStatus.CREATED)
+    public EquipoResponse crear(
             @Valid @RequestBody CrearEquipoRequest peticion,
             @AuthenticationPrincipal Long capitanId) {
 
-        EquipoResponse creado = equipoService.crear(
-                peticion.nombre(), peticion.tag(), capitanId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(creado);
+        return equipoService.crear(peticion.nombre(), peticion.tag(), capitanId);
     }
 
     @GetMapping

@@ -4,7 +4,6 @@ import com.maxi.gestortorneos.dto.*;
 import com.maxi.gestortorneos.service.TorneoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import java.util.List;
@@ -20,13 +19,12 @@ public class TorneoController {
     }
 
     @PostMapping
-    public ResponseEntity<TorneoResponse> crear(
+    @ResponseStatus(HttpStatus.CREATED)
+    public TorneoResponse crear(
             @Valid @RequestBody CrearTorneoRequest peticion,
             @AuthenticationPrincipal Long organizadorId) {
 
-        TorneoResponse creado = torneoService.crear(
-                peticion.nombre(), peticion.formato(), organizadorId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(creado);
+        return torneoService.crear(peticion.nombre(), peticion.formato(), organizadorId);
     }
 
     @GetMapping

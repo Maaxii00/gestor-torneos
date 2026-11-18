@@ -6,7 +6,6 @@ import com.maxi.gestortorneos.model.Usuario;
 import com.maxi.gestortorneos.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,13 +21,14 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioResponse> crear(@Valid @RequestBody CrearUsuarioRequest peticion) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public UsuarioResponse crear(@Valid @RequestBody CrearUsuarioRequest peticion) {
         Usuario creado = usuarioService.registrar(
                 peticion.email(),
                 peticion.password(),
                 peticion.nombre()
         );
-        return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioResponse.desde(creado));
+        return UsuarioResponse.desde(creado);
     }
 
     @GetMapping
