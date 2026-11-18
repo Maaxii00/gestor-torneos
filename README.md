@@ -1,5 +1,7 @@
 # Gestor de Torneos
 
+![Tests](https://github.com/Maaxii00/gestor-torneos/actions/workflows/tests.yml/badge.svg)
+
 API REST para organizar torneos de videojuegos: registro de usuarios, creación de equipos, inscripción en torneos, generación automática del calendario de liga, registro de resultados y clasificación en tiempo real.
 
 **Stack:** Java 21 · Spring Boot 4 · Spring Security + JWT · Spring Data JPA · MySQL 8 · Maven · JUnit
@@ -154,6 +156,7 @@ src/main/java/com/maxi/gestortorneos/
 ├── dto/            # Objetos de entrada y salida de la API
 ├── generador/      # Generación del calendario de liga
 ├── clasificacion/  # Cálculo de la clasificación
+│   └── desempate/  # Criterios de desempate y resolutor
 ├── security/       # Filtro y servicio JWT
 ├── config/         # Configuración de Spring Security
 └── exception/      # Errores personalizados y manejador global
