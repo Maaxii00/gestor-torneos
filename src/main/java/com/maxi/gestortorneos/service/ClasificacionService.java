@@ -10,6 +10,7 @@ import com.maxi.gestortorneos.model.Serie;
 import com.maxi.gestortorneos.repository.InscripcionRepository;
 import com.maxi.gestortorneos.repository.SerieRepository;
 import com.maxi.gestortorneos.repository.TorneoRepository;
+import com.maxi.gestortorneos.clasificacion.desempate.ResolutorDeEmpates;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,13 +24,18 @@ public class ClasificacionService {
     private final InscripcionRepository inscripcionRepository;
     private final SerieRepository serieRepository;
     private final CalculadoraClasificacion calculadora;
+    private final ResolutorDeEmpates resolutor;
 
-    public ClasificacionService(TorneoRepository torneoRepository, InscripcionRepository inscripcionRepository, SerieRepository serieRepository,
-    CalculadoraClasificacion calculadora){
+    public ClasificacionService(TorneoRepository torneoRepository,
+                                InscripcionRepository inscripcionRepository,
+                                SerieRepository serieRepository,
+                                CalculadoraClasificacion calculadora,
+                                ResolutorDeEmpates resolutor) {
         this.torneoRepository = torneoRepository;
         this.inscripcionRepository = inscripcionRepository;
         this.serieRepository = serieRepository;
         this.calculadora = calculadora;
+        this.resolutor = resolutor;
     }
 
 
@@ -45,12 +51,19 @@ public class ClasificacionService {
                 .toList();
 
         List<Serie> series = serieRepository.findConEquiposPorTorneoId(torneoId);
-
-        List<FilaClasificacion> filas = calculadora.calcular(equipos, series);
+        List<FilaClasificacion> tabla = calculadora.calcular(equipos, series);
+        List<List<FilaClasificacion>> puestos = resolutor.resolver(tabla, series);
 
         List<FilaClasificacionResponse> respuesta = new ArrayList<>();
-        for (int i = 0; i < filas.size(); i++) {
-            respuesta.add(FilaClasificacionResponse.desde(filas.get(i), i + 1));
+        int posicion = 1;
+
+        for (List<FilaClasificacion> grupo : puestos) {
+            boolean empatados = grupo.size() > 1;
+
+            for (FilaClasificacion fila : grupo) {
+                respuesta.add(FilaClasificacionResponse.desde(fila, posicion, empatados));
+            }
+            posicion += grupo.size();
         }
         return respuesta;
     }
