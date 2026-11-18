@@ -68,6 +68,13 @@ La API queda disponible en `http://localhost:8080`.
 ```
 No hace falta MySQL ni configurar nada: los tests usan una base de datos H2 en memoria.
 
+### Documentación de la API
+
+Con la aplicación arrancada, la documentación interactiva está en
+[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html).
+
+Para probar los endpoints protegidos: haz login, copia el token de la
+respuesta, pulsa **Authorize** y pégalo.
 ---
 
 
