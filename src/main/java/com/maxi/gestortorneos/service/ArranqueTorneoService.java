@@ -49,7 +49,7 @@ public class ArranqueTorneoService {
             throw new ConflictoException("Formato de Torneo aún no disponible");
         }
 
-        List<Inscripcion> inscripciones = inscripcionRepository.findByTorneoId(torneoId);
+        List<Inscripcion> inscripciones = inscripcionRepository.findConEquipoYTorneoPorTorneoId(torneoId);
         List<Equipo> listaEquipos = new ArrayList<>();
         for (Inscripcion inscripcion : inscripciones){
             listaEquipos.add(inscripcion.getEquipo());

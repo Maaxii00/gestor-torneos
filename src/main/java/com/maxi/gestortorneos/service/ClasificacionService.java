@@ -47,7 +47,7 @@ public class ClasificacionService {
             throw new RecursoNoEncontradoException("No existe un torneo con id " + torneoId);
         }
 
-        List<Equipo> equipos = inscripcionRepository.findByTorneoId(torneoId).stream()
+        List<Equipo> equipos = inscripcionRepository.findConEquipoYTorneoPorTorneoId(torneoId).stream()
                 .map(Inscripcion::getEquipo)
                 .toList();
 

@@ -61,7 +61,7 @@ public class InscripcionService {
             throw new RecursoNoEncontradoException("No existe un torneo con id " + torneoId);
         }
 
-        return inscripcionRepository.findByTorneoId(torneoId).stream()
+        return inscripcionRepository.findConEquipoYTorneoPorTorneoId(torneoId).stream()
                 .map(InscripcionResponse::desde)
                 .toList();
     }
