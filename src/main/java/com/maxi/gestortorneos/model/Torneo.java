@@ -55,6 +55,14 @@
             }
             this.estado = EstadoTorneo.EN_CURSO;
         }
+
+        public void finalizar() {
+            if (estado != EstadoTorneo.EN_CURSO) {
+                throw new ConflictoException(
+                        "El torneo no se puede finalizar: está " + estado);
+            }
+            this.estado = EstadoTorneo.FINALIZADO;
+        }
         public Long getId() {
             return id;
         }

@@ -1,5 +1,6 @@
 package com.maxi.gestortorneos.repository;
 
+import com.maxi.gestortorneos.model.EstadoSerie;
 import com.maxi.gestortorneos.model.Serie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +18,5 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
            where s.ronda.fase.torneo.id = :torneoId
            """)
     List<Serie> findConEquiposPorTorneoId(@Param("torneoId") Long torneoId);
+    long countByRondaFaseTorneoIdAndEstadoNot(Long torneoId, EstadoSerie estado);
 }
