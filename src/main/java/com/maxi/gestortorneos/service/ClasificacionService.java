@@ -7,6 +7,7 @@ import com.maxi.gestortorneos.exception.RecursoNoEncontradoException;
 import com.maxi.gestortorneos.model.Equipo;
 import com.maxi.gestortorneos.model.Inscripcion;
 import com.maxi.gestortorneos.model.Serie;
+import com.maxi.gestortorneos.model.TipoFase;
 import com.maxi.gestortorneos.repository.InscripcionRepository;
 import com.maxi.gestortorneos.repository.SerieRepository;
 import com.maxi.gestortorneos.repository.TorneoRepository;
@@ -50,7 +51,7 @@ public class ClasificacionService {
                 .map(Inscripcion::getEquipo)
                 .toList();
 
-        List<Serie> series = serieRepository.findConEquiposPorTorneoId(torneoId);
+        List<Serie> series = serieRepository.findConEquiposPorTorneoIdYTipoFase(torneoId, TipoFase.LIGA);
         List<FilaClasificacion> tabla = calculadora.calcular(equipos, series);
         List<List<FilaClasificacion>> puestos = resolutor.resolver(tabla, series);
 
