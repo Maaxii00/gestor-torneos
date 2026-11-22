@@ -26,43 +26,41 @@ public class ResolutorDeEmpates {
      */
     public List<List<FilaClasificacion>> resolver(List<FilaClasificacion> tabla,
                                                   List<Serie> series) {
+        return resolver(tabla, series, List.of());
+    }
+
+    public List<List<FilaClasificacion>> resolver(List<FilaClasificacion> tabla,
+                                                  List<Serie> series,
+                                                  List<Serie> seriesDesempate) {
         List<List<FilaClasificacion>> resultado = new ArrayList<>();
 
         for (List<FilaClasificacion> grupo : agruparPor(tabla, FilaClasificacion::seriesGanadas)) {
-            resultado.addAll(desempatar(grupo, tabla, series));
+            resultado.addAll(desempatar(grupo, tabla, series, seriesDesempate));
         }
         return resultado;
     }
 
-    private List<List<FilaClasificacion>> desempatar(List<FilaClasificacion> grupo,
-                                                     List<FilaClasificacion> tabla,
-                                                     List<Serie> series) {
+    private List<List<FilaClasificacion>> desempatar(List<FilaClasificacion> grupo, List<FilaClasificacion> tabla,
+                                                     List<Serie> series, List<Serie> seriesDesempate) {
         if (grupo.size() == 1) {
             return List.of(grupo);
         }
-
         Set<Long> empatados = grupo.stream()
                 .map(fila -> fila.equipo().getId())
                 .collect(Collectors.toSet());
-
-        ContextoDesempate contexto = new ContextoDesempate(series, tabla, empatados);
-
+        ContextoDesempate contexto = new ContextoDesempate(series, seriesDesempate, tabla, empatados);
         for (CriterioDesempate criterio : criterios) {
-
             List<List<FilaClasificacion>> particiones =
                     agruparPor(grupo, fila -> criterio.puntuar(fila, contexto));
-
             if (particiones.size() == 1) {
                 continue;
             }
-
             List<List<FilaClasificacion>> resueltos = new ArrayList<>();
             for (List<FilaClasificacion> particion : particiones) {
-                resueltos.addAll(desempatar(particion, tabla, series));
+                resueltos.addAll(desempatar(particion, tabla, series, seriesDesempate));
             }
             return resueltos;
         }
-
         return List.of(grupo);                  // empate sin resolver
     }
 

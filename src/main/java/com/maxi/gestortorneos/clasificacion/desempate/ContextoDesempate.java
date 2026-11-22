@@ -9,12 +9,22 @@ import java.util.Set;
 
 public record ContextoDesempate(
         List<Serie> series,
+        List<Serie> seriesDesempate,
         List<FilaClasificacion> tabla,
         Set<Long> empatados) {
 
-    /** Las series terminadas en las que juegan dos equipos del grupo empatado. */
+    /** Las series terminadas de liga en las que juegan dos equipos del grupo empatado. */
     public List<Serie> seriesEntreEmpatados() {
-        return series.stream()
+        return entreEmpatados(series);
+    }
+
+    /** Las series de desempate terminadas entre equipos del grupo empatado. */
+    public List<Serie> seriesDesempateEntreEmpatados() {
+        return entreEmpatados(seriesDesempate);
+    }
+
+    private List<Serie> entreEmpatados(List<Serie> lista) {
+        return lista.stream()
                 .filter(serie -> serie.getEstado() == EstadoSerie.FINALIZADA)
                 .filter(serie -> empatados.contains(serie.getEquipoA().getId())
                         && empatados.contains(serie.getEquipoB().getId()))

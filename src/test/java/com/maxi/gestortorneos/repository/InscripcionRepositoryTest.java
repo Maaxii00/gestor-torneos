@@ -34,8 +34,6 @@ class InscripcionRepositoryTest {
         inscripcionRepository.save(new Inscripcion(kc, lec));
         inscripcionRepository.save(new Inscripcion(g2, lec));
         inscripcionRepository.save(new Inscripcion(kc, otro));
-
-        // Vaciar la memoria de Hibernate para que todo venga de la base de datos
         entityManager.flush();
         entityManager.clear();
 
