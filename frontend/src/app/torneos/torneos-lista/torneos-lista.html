@@ -1,0 +1,13 @@
+<h2>Torneos</h2>
+
+@if (error()) {
+  <p>{{ error() }}</p>
+}
+
+<ul>
+  @for (torneo of torneos(); track torneo.id) {
+    <li>{{ torneo.nombre }} · {{ torneo.formato }} ({{ torneo.estado }})</li>
+  } @empty {
+    <li>No hay torneos todavía.</li>
+  }
+</ul>
