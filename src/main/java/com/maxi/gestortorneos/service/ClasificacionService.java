@@ -52,8 +52,9 @@ public class ClasificacionService {
                 .toList();
 
         List<Serie> series = serieRepository.findConEquiposPorTorneoIdYTipoFase(torneoId, TipoFase.LIGA);
+        List<Serie> seriesDesempate = serieRepository.findConEquiposPorTorneoIdYTipoFase(torneoId, TipoFase.DESEMPATE);
         List<FilaClasificacion> tabla = calculadora.calcular(equipos, series);
-        List<List<FilaClasificacion>> puestos = resolutor.resolver(tabla, series);
+        List<List<FilaClasificacion>> puestos = resolutor.resolver(tabla, series, seriesDesempate);
 
         List<FilaClasificacionResponse> respuesta = new ArrayList<>();
         int posicion = 1;
