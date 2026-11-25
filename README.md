@@ -21,7 +21,7 @@ API REST para organizar torneos de videojuegos: registro de usuarios, creación 
 - ✅ **Resultados por series:** cada enfrentamiento es una serie al mejor de N partidas; solo el organizador del torneo puede registrar resultados.
 - ✅ **Clasificación con desempates:** cadena de criterios inspirada en el reglamento de la LEC —enfrentamiento directo, diferencia de partidas en el directo, diferencia global y *Strength of Victory*— con **resolución recursiva de empates múltiples**: cuando un criterio separa a un equipo del grupo, el desempate se reinicia entre los que quedan. Los empates que ningún criterio rompe se marcan como tales en la respuesta.
 - ✅ **Gestión de errores centralizada:** respuestas claras para recurso no encontrado, conflicto, operación no permitida o credenciales inválidas.
-- ✅ **32 pruebas automáticas** del generador de liga, la clasificación, los desempates, las series y las inscripciones.
+- ✅ **34 pruebas automáticas** del generador de liga, la clasificación, los desempates, las series y las inscripciones.
 ### Hoja de ruta
 - ⬜ Formato **suizo** (ya modelado, pendiente de implementar).
 - ⬜ Fases **eliminatorias** (playoffs) tras la liga.
@@ -100,6 +100,7 @@ respuesta, pulsa **Authorize** y pégalo.
 | POST | `/api/series/{id}/partidos` | 🔒 | Registrar el ganador de una partida (solo el organizador) |
 | GET | `/api/torneos/{id}/clasificacion` | 🔓 | Clasificación del torneo |
 | POST | `/api/torneos/{torneoId}/finalizar` | 🔒 | Cierra el torneo (solo el organizador, sin series pendientes) |
+| POST | `/api/torneos/{torneoId}/desempates` | 🔒 | Organiza series de desempate entre equipos empatados (solo el organizador) |
 
 ---
 
