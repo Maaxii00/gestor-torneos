@@ -3,10 +3,12 @@ import { RouterLink } from '@angular/router';
 import { TorneoService } from '../../services/torneo.service';
 import { Torneo } from '../../models/torneo';
 import { AuthService } from '../../services/auth.service';
+import { FormatoTorneoPipe } from '../../pipes/formato-torneo.pipe';
+import { EstadoTorneoPipe } from '../../pipes/estado-torneo.pipe';
 
 @Component({
   selector: 'app-torneos-lista',
-  imports: [RouterLink],
+  imports: [RouterLink, FormatoTorneoPipe, EstadoTorneoPipe],
   templateUrl: './torneos-lista.html',
   styleUrl: './torneos-lista.scss',
 })

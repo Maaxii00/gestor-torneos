@@ -13,8 +13,9 @@
   @for (torneo of torneos(); track torneo.id) {
     <li>
       <span class="nombre">{{ torneo.nombre }}</span>
-      <span class="formato">{{ torneo.formato }}</span>
-      <span class="estado" [attr.data-estado]="torneo.estado">{{ torneo.estado }}</span>
+      <span class="formato">{{ torneo.formato | formatoTorneo }}</span>
+      <span class="estado" [attr.data-estado]="torneo.estado">{{ torneo.estado | estadoTorneo }}</span>
+      
     </li>
   } @empty {
     <li class="vacio">No hay torneos todavía.</li>
