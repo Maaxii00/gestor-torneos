@@ -22,7 +22,7 @@
   }
 
   @if (error()) {
-    <p>{{ error() }}</p>
+    <p class="mensaje-error">{{ error() }}</p>
   }
 
   <button type="submit" [disabled]="enviando()">Entrar</button>

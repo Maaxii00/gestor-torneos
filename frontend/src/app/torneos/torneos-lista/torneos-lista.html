@@ -1,16 +1,22 @@
-<h2>Torneos</h2>
-@if (auth.logueado()) {
-  <a routerLink="/torneos/nuevo">+ Nuevo torneo</a>
-}
+<div class="encabezado">
+  <h2>Torneos</h2>
+  @if (auth.logueado()) {
+    <a routerLink="/torneos/nuevo" class="boton">+ Nuevo torneo</a>
+  }
+</div>
 
 @if (error()) {
-  <p>{{ error() }}</p>
+  <p class="mensaje-error">{{ error() }}</p>
 }
 
-<ul>
+<ul class="lista">
   @for (torneo of torneos(); track torneo.id) {
-    <li>{{ torneo.nombre }} · {{ torneo.formato }} ({{ torneo.estado }})</li>
+    <li>
+      <span class="nombre">{{ torneo.nombre }}</span>
+      <span class="formato">{{ torneo.formato }}</span>
+      <span class="estado" [attr.data-estado]="torneo.estado">{{ torneo.estado }}</span>
+    </li>
   } @empty {
-    <li>No hay torneos todavía.</li>
+    <li class="vacio">No hay torneos todavía.</li>
   }
 </ul>

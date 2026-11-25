@@ -1,13 +1,15 @@
-<header>
-  <h1>Gestor de Torneos</h1>
+<header class="cabecera">
+  <a routerLink="/torneos" class="logo">Gestor de Torneos</a>
   <nav>
-    <a routerLink="/torneos">Torneos</a>
+    <a routerLink="/torneos" routerLinkActive="activo">Torneos</a>
     @if (auth.logueado()) {
-      <button (click)="salir()">Cerrar sesión</button>
+      <button class="secundario" (click)="salir()">Cerrar sesión</button>
     } @else {
-      <a routerLink="/login">Entrar</a>
+      <a routerLink="/login" routerLinkActive="activo">Entrar</a>
     }
   </nav>
 </header>
 
-<router-outlet />
+<main class="contenedor">
+  <router-outlet />
+</main>
