@@ -1,4 +1,13 @@
-<h1>Gestor de Torneos</h1>
-<p>Bienvenido, {{ title() }}</p>
+<header>
+  <h1>Gestor de Torneos</h1>
+  <nav>
+    <a routerLink="/torneos">Torneos</a>
+    @if (auth.logueado()) {
+      <button (click)="salir()">Cerrar sesión</button>
+    } @else {
+      <a routerLink="/login">Entrar</a>
+    }
+  </nav>
+</header>
 
 <router-outlet />
