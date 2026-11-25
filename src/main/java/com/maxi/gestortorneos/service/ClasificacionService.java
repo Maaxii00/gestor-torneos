@@ -39,10 +39,7 @@ public class ClasificacionService {
         this.resolutor = resolutor;
     }
 
-
-    @Transactional(readOnly = true)
-    public List<FilaClasificacionResponse> deTorneo(Long torneoId) {
-
+    private List<List<FilaClasificacion>> calcularPuestos(Long torneoId) {
         if (!torneoRepository.existsById(torneoId)) {
             throw new RecursoNoEncontradoException("No existe un torneo con id " + torneoId);
         }
@@ -53,12 +50,17 @@ public class ClasificacionService {
 
         List<Serie> series = serieRepository.findConEquiposPorTorneoIdYTipoFase(torneoId, TipoFase.LIGA);
         List<Serie> seriesDesempate = serieRepository.findConEquiposPorTorneoIdYTipoFase(torneoId, TipoFase.DESEMPATE);
-        List<FilaClasificacion> tabla = calculadora.calcular(equipos, series);
-        List<List<FilaClasificacion>> puestos = resolutor.resolver(tabla, series, seriesDesempate);
 
+        List<FilaClasificacion> tabla = calculadora.calcular(equipos, series);
+        return resolutor.resolver(tabla, series, seriesDesempate);
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<FilaClasificacionResponse> deTorneo(Long torneoId) {
+        List<List<FilaClasificacion>> puestos = calcularPuestos(torneoId);
         List<FilaClasificacionResponse> respuesta = new ArrayList<>();
         int posicion = 1;
-
         for (List<FilaClasificacion> grupo : puestos) {
             boolean empatados = grupo.size() > 1;
 
@@ -69,4 +71,13 @@ public class ClasificacionService {
         }
         return respuesta;
     }
+
+    @Transactional(readOnly = true)
+    public List<List<Equipo>> gruposSinResolver(Long torneoId) {
+        return calcularPuestos(torneoId).stream()
+                .filter(grupo -> grupo.size() > 1)
+                .map(grupo -> grupo.stream().map(FilaClasificacion::equipo).toList())
+                .toList();
+    }
+
 }
