@@ -1,4 +1,7 @@
 <h2>Torneos</h2>
+@if (auth.logueado()) {
+  <a routerLink="/torneos/nuevo">+ Nuevo torneo</a>
+}
 
 @if (error()) {
   <p>{{ error() }}</p>

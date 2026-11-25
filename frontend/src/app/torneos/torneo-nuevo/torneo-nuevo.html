@@ -1,0 +1,26 @@
+<h2>Nuevo torneo</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="crear()">
+  <label>
+    Nombre
+    <input type="text" formControlName="nombre" maxlength="120" />
+  </label>
+  @if (formulario.controls.nombre.touched && formulario.controls.nombre.hasError('required')) {
+    <small>El nombre es obligatorio</small>
+  }
+
+  <label>
+    Formato
+    <select formControlName="formato">
+      @for (f of formatos; track f.valor) {
+        <option [value]="f.valor">{{ f.texto }}</option>
+      }
+    </select>
+  </label>
+
+  @if (error()) {
+    <p>{{ error() }}</p>
+  }
+
+  <button type="submit" [disabled]="enviando()">Crear torneo</button>
+</form>
