@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,11 +36,14 @@ class FinalizacionTorneoServiceTest {
     @Mock
     private SerieRepository serieRepository;
 
+    @Mock
+    private ClasificacionService clasificacionService;
+
     private FinalizacionTorneoService servicio;
 
     @BeforeEach
     void prepararServicio() {
-        servicio = new FinalizacionTorneoService(torneoRepository, serieRepository);
+        servicio = new FinalizacionTorneoService(torneoRepository, serieRepository, clasificacionService);
     }
 
     @Test
@@ -65,6 +69,7 @@ class FinalizacionTorneoServiceTest {
                 .hasMessageContaining("3");
 
         assertThat(torneo.getEstado()).isEqualTo(EstadoTorneo.EN_CURSO);
+        verify(clasificacionService, never()).gruposSinResolver(any());
     }
 
     @Test
@@ -102,5 +107,26 @@ class FinalizacionTorneoServiceTest {
         ReflectionTestUtils.setField(torneo, "id", 1L);
         ReflectionTestUtils.setField(torneo, "estado", EstadoTorneo.EN_CURSO);
         return torneo;
+    }
+
+    @Test
+    @DisplayName("Lanza 409 si hay empates sin resolver aunque no queden series")
+    void lanza409SiHayEmpatesSinResolver() {
+        Torneo torneo = torneoEnCurso();
+        when(torneoRepository.findById(1L)).thenReturn(Optional.of(torneo));
+        when(serieRepository.countByRondaFaseTorneoIdAndEstadoNot(1L, EstadoSerie.FINALIZADA))
+                .thenReturn(0L);
+
+        Usuario capitan = new Usuario("cap@test.com", "hash", "Capitán", Rol.USUARIO);
+        List<Equipo> empatados = List.of(
+                new Equipo("Karmine Corp", "KC", capitan),
+                new Equipo("Fnatic", "FNC", capitan));
+        when(clasificacionService.gruposSinResolver(1L)).thenReturn(List.of(empatados));
+
+        assertThatThrownBy(() -> servicio.finalizar(1L, ORGANIZADOR_ID))
+                .isInstanceOf(ConflictoException.class)
+                .hasMessageContaining("empates");
+
+        assertThat(torneo.getEstado()).isEqualTo(EstadoTorneo.EN_CURSO);
     }
 }

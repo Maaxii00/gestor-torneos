@@ -16,10 +16,12 @@ public class FinalizacionTorneoService {
 
     private final TorneoRepository torneoRepository;
     private final SerieRepository serieRepository;
+    private final ClasificacionService clasificacionService;
 
-    public FinalizacionTorneoService(TorneoRepository torneoRepository, SerieRepository serieRepository) {
+    public FinalizacionTorneoService(TorneoRepository torneoRepository, SerieRepository serieRepository, ClasificacionService clasificacionService) {
         this.torneoRepository = torneoRepository;
         this.serieRepository = serieRepository;
+        this.clasificacionService = clasificacionService;
     }
 
     @Transactional
@@ -38,6 +40,11 @@ public class FinalizacionTorneoService {
         if (pendientes > 0) {
             throw new ConflictoException(
                     "El torneo no se puede finalizar: quedan " + pendientes + " series por jugar");
+        }
+
+        if (!clasificacionService.gruposSinResolver(torneoId).isEmpty()) {
+            throw new ConflictoException(
+                    "El torneo no se puede finalizar: hay empates sin resolver");
         }
         torneo.finalizar();
         return TorneoResponse.desde(torneo);
