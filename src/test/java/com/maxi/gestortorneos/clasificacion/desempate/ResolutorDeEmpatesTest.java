@@ -20,9 +20,11 @@ class ResolutorDeEmpatesTest {
             new SeriesGanadasEntreEmpatados(),
             new DiferenciaDePartidasEntreEmpatados(),
             new DiferenciaDePartidasGlobal(),
-            new StrengthOfVictory()));
+            new StrengthOfVictory(),
+            new ResultadoDesempate()));
 
     private Ronda ronda;
+    private Ronda rondaDesempate;
     private Equipo a;
     private Equipo b;
     private Equipo c;
@@ -40,6 +42,8 @@ class ResolutorDeEmpatesTest {
         Torneo torneo = new Torneo("Liga", FormatoTorneo.LIGA_CLASICA, usuario);
         Fase fase = new Fase(torneo, "Liguilla", TipoFase.LIGA, 1);
         ronda = new Ronda(fase, 1, "Jornada 1", 2);
+        Fase faseDesempate = new Fase(torneo, "Desempate", TipoFase.DESEMPATE, 2);
+        rondaDesempate = new Ronda(faseDesempate, 1, "Desempate", 1);
     }
 
     private Equipo equipo(Long id, String nombre, String tag, Usuario capitan) {
@@ -129,5 +133,26 @@ class ResolutorDeEmpatesTest {
 
         assertThat(puestos.get(0)).hasSize(2);
         assertThat(tags(puestos.get(0))).containsExactlyInAnyOrder("ALF", "BRA");
+    }
+
+    @Test
+    @DisplayName("Un empate sin resolver lo decide la serie de desempate")
+    void elDesempateDecideElEmpateSinResolver() {
+        List<Serie> series = List.of(
+                serieGanadaPor(a, c, 0),
+                serieGanadaPor(a, d, 0),
+                serieGanadaPor(b, c, 0),
+                serieGanadaPor(b, d, 0));
+
+        Serie rematch = new Serie(rondaDesempate, a, b);
+        rematch.registrarVictoriaDe(b);
+
+        List<List<FilaClasificacion>> puestos = resolutor.resolver(
+                calculadora.calcular(List.of(a, b, c, d), series),
+                series,
+                List.of(rematch));
+
+        assertThat(tags(puestos.get(0))).containsExactly("BRA");
+        assertThat(tags(puestos.get(1))).containsExactly("ALF");
     }
 }

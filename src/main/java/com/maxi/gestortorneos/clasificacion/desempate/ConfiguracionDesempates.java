@@ -14,6 +14,7 @@ public class ConfiguracionDesempates {
                 new SeriesGanadasEntreEmpatados(),
                 new DiferenciaDePartidasEntreEmpatados(),
                 new DiferenciaDePartidasGlobal(),
-                new StrengthOfVictory()));
+                new StrengthOfVictory(),
+                new ResultadoDesempate()));
     }
 }
