@@ -31,4 +31,16 @@ export class TorneoService {
   calendario(id: number): Observable<Ronda[]> {
     return this.http.get<Ronda[]>(`${this.url}/${id}/calendario`);
   }
+
+  iniciar(id: number): Observable<unknown> {
+  return this.http.post(`${this.url}/${id}/iniciar`, {});
+  }
+
+  organizarDesempate(id: number, victoriasParaGanar: number): Observable<unknown> {
+    return this.http.post(`${this.url}/${id}/desempates`, { victoriasParaGanar });
+  }
+
+  finalizar(id: number): Observable<unknown> {
+    return this.http.post(`${this.url}/${id}/finalizar`, {});
+  }
 }

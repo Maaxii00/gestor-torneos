@@ -121,3 +121,26 @@ h3 {
     flex: 1;
   }
 }
+
+.panel {
+  margin: 0 0 2rem;
+  padding: 1rem 1.25rem;
+  background: var(--superficie);
+  border: 1px solid var(--acento);
+  border-radius: var(--radio);
+
+  h4 {
+    margin: 0 0 0.75rem;
+    font-size: 0.9rem;
+    color: var(--acento);
+  }
+
+  .aviso {
+    margin: 0.5rem 0 0;
+  }
+}
+
+.fila-acciones {
+  display: flex;
+  gap: 0.5rem;
+}

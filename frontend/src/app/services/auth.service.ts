@@ -9,7 +9,7 @@ const CLAVE_TOKEN = 'token';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-
+  
   private readonly http = inject(HttpClient);
   private readonly url = `${environment.apiUrl}/auth`;
 
@@ -33,4 +33,17 @@ export class AuthService {
   registrar(datos: RegistroRequest): Observable<Usuario> {
     return this.http.post<Usuario>(`${environment.apiUrl}/usuarios`, datos);
   }
+
+  readonly usuarioId = computed<number | null>(() => {
+    const token = this.token();
+    if (!token) {
+      return null;
+    }
+    try {
+        const payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+        return Number(JSON.parse(atob(payload)).sub);
+      } catch {
+        return null;
+      }
+    });
 }

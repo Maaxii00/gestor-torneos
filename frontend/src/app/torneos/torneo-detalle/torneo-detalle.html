@@ -9,6 +9,46 @@
   </div>
   <p class="detalle">{{ t.formato | formatoTorneo }} · Organiza {{ t.organizador.nombre }}</p>
 
+  @if (esOrganizador()) {
+    <section class="panel">
+      <h4>Panel del organizador</h4>
+
+      @switch (t.estado) {
+        @case ('ABIERTO') {
+          <button (click)="iniciar()" [disabled]="procesando() || inscripciones().length < 2">
+            Iniciar torneo
+          </button>
+          @if (inscripciones().length < 2) {
+            <p class="aviso">Hacen falta al menos 2 equipos inscritos.</p>
+          }
+        }
+        @case ('EN_CURSO') {
+          @if (seriesPendientes() > 0) {
+            <p class="aviso">Quedan {{ seriesPendientes() }} series por jugar. Registra los resultados en el calendario.</p>
+          } @else if (hayEmpatesSinResolver()) {
+            <div class="fila-acciones">
+              <select [formControl]="victoriasDesempate">
+                <option [ngValue]="1">Desempate al Bo1</option>
+                <option [ngValue]="2">Desempate al Bo3</option>
+                <option [ngValue]="3">Desempate al Bo5</option>
+              </select>
+              <button (click)="organizarDesempate()" [disabled]="procesando()">Organizar desempate</button>
+            </div>
+          } @else {
+            <button (click)="finalizar()" [disabled]="procesando()">Finalizar torneo</button>
+          }
+        }
+        @case ('FINALIZADO') {
+          <p class="aviso">El torneo ha terminado.</p>
+        }
+      }
+
+      @if (errorAccion()) {
+        <p class="mensaje-error">{{ errorAccion() }}</p>
+      }
+    </section>
+  }
+
   <h3>Clasificación</h3>
 
   @if (t.estado === 'ABIERTO') {
@@ -52,8 +92,13 @@
   }
 
   <h3>Calendario</h3>
-  <app-calendario [rondas]="rondas()" />
-  
+  <app-calendario
+    [rondas]="rondas()"
+    [esOrganizador]="esOrganizador()"
+    [procesando]="procesando()"
+    (victoriaRegistrada)="registrarVictoria($event)"
+  />
+
   <h3>Equipos inscritos ({{ inscripciones().length }})</h3>
 
   <ul class="inscritos">

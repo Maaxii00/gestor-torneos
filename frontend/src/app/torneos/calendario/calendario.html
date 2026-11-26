@@ -23,6 +23,18 @@
           <span class="equipo visitante" [class.ganador]="serie.ganador?.id === serie.equipoB.id">
             {{ serie.equipoB.nombre }}
           </span>
+          @if (esOrganizador() && serie.estado !== 'FINALIZADA') {
+            <div class="acciones">
+                <button class="secundario" [disabled]="procesando()"
+                        (click)="victoriaRegistrada.emit({ serieId: serie.id, ganadorId: serie.equipoA.id })">
+                +1 {{ serie.equipoA.tag }}
+                </button>
+                <button class="secundario" [disabled]="procesando()"
+                        (click)="victoriaRegistrada.emit({ serieId: serie.id, ganadorId: serie.equipoB.id })">
+                +1 {{ serie.equipoB.tag }}
+                </button>
+            </div>
+            }
         </li>
       }
     </ul>
