@@ -3,7 +3,8 @@
   <nav>
     <a routerLink="/torneos" routerLinkActive="activo">Torneos</a>
     @if (auth.logueado()) {
-      <button class="secundario" (click)="salir()">Cerrar sesión</button>
+        <a routerLink="/equipos" routerLinkActive="activo">Mis equipos</a>
+        <button class="secundario" (click)="salir()">Cerrar sesión</button>
     } @else {
         <a routerLink="/login" routerLinkActive="activo">Entrar</a>
         <a routerLink="/registro" routerLinkActive="activo">Registrarse</a>

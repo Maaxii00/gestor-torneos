@@ -1,0 +1,34 @@
+.equipos {
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  li {
+    display: flex;
+    gap: 1rem;
+    padding: 0.8rem 1.1rem;
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+  }
+
+  .aviso {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--texto-suave);
+  }
+}
+
+.tag {
+  min-width: 3rem;
+  font-weight: 700;
+  color: var(--acento);
+}
+
+.input-tag {
+  text-transform: uppercase;
+}

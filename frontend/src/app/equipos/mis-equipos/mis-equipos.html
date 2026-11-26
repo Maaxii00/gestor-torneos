@@ -1,0 +1,38 @@
+<h2>Mis equipos</h2>
+
+<ul class="equipos">
+  @for (equipo of equipos(); track equipo.id) {
+    <li>
+      <span class="tag">{{ equipo.tag }}</span>
+      <span>{{ equipo.nombre }}</span>
+    </li>
+  } @empty {
+    <li class="aviso">Todavía no eres capitán de ningún equipo.</li>
+  }
+</ul>
+
+<h3>Crear un equipo</h3>
+
+<form [formGroup]="formulario" (ngSubmit)="crear()">
+  <label>
+    Nombre
+    <input type="text" formControlName="nombre" maxlength="60" />
+  </label>
+  @if (formulario.controls.nombre.touched && formulario.controls.nombre.hasError('required')) {
+    <small>El nombre es obligatorio</small>
+  }
+
+  <label>
+    Tag (2-5 caracteres)
+    <input type="text" formControlName="tag" maxlength="5" class="input-tag" />
+  </label>
+  @if (formulario.controls.tag.touched && formulario.controls.tag.invalid) {
+    <small>El tag debe tener entre 2 y 5 caracteres</small>
+  }
+
+  @if (error()) {
+    <p class="mensaje-error">{{ error() }}</p>
+  }
+
+  <button type="submit" [disabled]="enviando()">Crear equipo</button>
+</form>

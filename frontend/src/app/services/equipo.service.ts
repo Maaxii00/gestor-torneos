@@ -13,4 +13,7 @@ export class EquipoService {
   mios(): Observable<Equipo[]> {
     return this.http.get<Equipo[]>(`${this.url}/mios`);
   }
+  crear(datos: { nombre: string; tag: string }): Observable<Equipo> {
+    return this.http.post<Equipo>(this.url, datos);
+  }
 }
