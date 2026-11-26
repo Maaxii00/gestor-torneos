@@ -71,7 +71,8 @@ select {
     border-color: var(--acento);
   }
 
-  &.ng-invalid.ng-touched {
+  &.ng-invalid.ng-touched,
+  &.campo-invalido {
     border-color: var(--error);
   }
 }

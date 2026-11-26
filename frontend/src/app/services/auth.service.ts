@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoginRequest, LoginResponse } from '../models/auth';
+import { RegistroRequest, Usuario } from '../models/auth';
 
 const CLAVE_TOKEN = 'token';
 
@@ -27,5 +28,9 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(CLAVE_TOKEN);
     this.token.set(null);
+  }
+
+  registrar(datos: RegistroRequest): Observable<Usuario> {
+    return this.http.post<Usuario>(`${environment.apiUrl}/usuarios`, datos);
   }
 }

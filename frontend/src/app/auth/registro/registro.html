@@ -1,0 +1,51 @@
+<h2>Crear cuenta</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="registrar()">
+  <label>
+    Nombre
+    <input type="text" formControlName="nombre" autocomplete="name" />
+  </label>
+  @if (formulario.controls.nombre.touched && formulario.controls.nombre.hasError('required')) {
+    <small>El nombre es obligatorio</small>
+  }
+
+  <label>
+    Email
+    <input type="email" formControlName="email" autocomplete="email" />
+  </label>
+  @if (formulario.controls.email.touched) {
+    @if (formulario.controls.email.hasError('required')) {
+      <small>El email es obligatorio</small>
+    } @else if (formulario.controls.email.hasError('email')) {
+      <small>Introduce un email válido</small>
+    }
+  }
+
+  <label>
+    Contraseña
+    <input type="password" formControlName="password" autocomplete="new-password" />
+  </label>
+  @if (formulario.controls.password.touched) {
+    @if (formulario.controls.password.hasError('required')) {
+      <small>La contraseña es obligatoria</small>
+    } @else if (formulario.controls.password.hasError('minlength')) {
+      <small>Mínimo 8 caracteres</small>
+    }
+  }
+
+  <label>
+    Repite la contraseña
+    <input type="password" formControlName="confirmacion" autocomplete="new-password" [class.campo-invalido]="formulario.controls.confirmacion.touched && formulario.hasError('contrasenasDistintas')" />
+  </label>
+  @if (formulario.controls.confirmacion.touched && formulario.hasError('contrasenasDistintas')) {
+    <small>Las contraseñas no coinciden</small>
+  }
+
+  @if (error()) {
+    <p class="mensaje-error">{{ error() }}</p>
+  }
+
+  <button type="submit" [disabled]="enviando()">Crear cuenta</button>
+</form>
+
+<p class="pie">¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>

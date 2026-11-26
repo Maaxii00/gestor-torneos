@@ -4,6 +4,7 @@ import { Login } from './auth/login/login'
 import { TorneoNuevo } from './torneos/torneo-nuevo/torneo-nuevo'
 import { authGuard } from './guards/auth.guard'
 import { TorneoDetalle } from './torneos/torneo-detalle/torneo-detalle'
+import { Registro } from './auth/registro/registro'
 
 export const routes: Routes = [
   { path: 'torneos', component: TorneosLista },
@@ -12,4 +13,5 @@ export const routes: Routes = [
   { path: '', redirectTo: 'torneos', pathMatch: 'full' },
   { path: 'torneos/nuevo', component: TorneoNuevo, canActivate: [authGuard] },
   { path: 'torneos/:id', component: TorneoDetalle },
+  { path: 'registro', component: Registro },
 ];
