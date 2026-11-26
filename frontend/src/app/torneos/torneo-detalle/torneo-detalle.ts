@@ -11,10 +11,12 @@ import { Torneo } from '../../models/torneo';
 import { FilaClasificacion } from '../../models/clasificacion';
 import { FormatoTorneoPipe } from '../../pipes/formato-torneo.pipe';
 import { EstadoTorneoPipe } from '../../pipes/estado-torneo.pipe';
+import { Calendario } from '../calendario/calendario';
+import { Ronda } from '../../models/calendario';
 
 @Component({
   selector: 'app-torneo-detalle',
-  imports: [FormatoTorneoPipe, EstadoTorneoPipe, ReactiveFormsModule],
+  imports: [FormatoTorneoPipe, EstadoTorneoPipe, ReactiveFormsModule, Calendario],
   templateUrl: './torneo-detalle.html',
   styleUrl: './torneo-detalle.scss',
 })
@@ -33,6 +35,7 @@ export class TorneoDetalle implements OnInit {
   protected readonly misEquipos = signal<Equipo[]>([]);
   protected readonly error = signal<string | null>(null);
   protected readonly errorInscripcion = signal<string | null>(null);
+  protected readonly rondas = signal<Ronda[]>([]);
 
   protected readonly equiposInscribibles = computed(() => {
     const inscritos = new Set(this.inscripciones().map((i) => i.equipo.id));
@@ -62,6 +65,10 @@ export class TorneoDetalle implements OnInit {
         next: (equipos) => this.misEquipos.set(equipos),
       });
     }
+    
+    this.torneoService.calendario(id).subscribe({
+      next: (rondas) => this.rondas.set(rondas),
+    });
   }
 
   inscribir(): void {

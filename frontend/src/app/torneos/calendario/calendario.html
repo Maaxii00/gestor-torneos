@@ -1,0 +1,32 @@
+@for (ronda of rondas(); track ronda.id) {
+  <section class="ronda">
+    <h4>
+      {{ ronda.nombre }}
+      <span class="bo">Bo{{ ronda.victoriasParaGanarSerie * 2 - 1 }}</span>
+    </h4>
+
+    <ul class="series">
+      @for (serie of ronda.series; track serie.id) {
+        <li [attr.data-estado]="serie.estado">
+          <span class="equipo local" [class.ganador]="serie.ganador?.id === serie.equipoA.id">
+            {{ serie.equipoA.nombre }}
+          </span>
+
+          <span class="marcador">
+            @if (serie.estado === 'PENDIENTE') {
+              vs
+            } @else {
+              {{ serie.victoriasEquipoA }} - {{ serie.victoriasEquipoB }}
+            }
+          </span>
+
+          <span class="equipo visitante" [class.ganador]="serie.ganador?.id === serie.equipoB.id">
+            {{ serie.equipoB.nombre }}
+          </span>
+        </li>
+      }
+    </ul>
+  </section>
+} @empty {
+  <p class="aviso">El calendario se generará al iniciar el torneo.</p>
+}
