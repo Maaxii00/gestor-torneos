@@ -1,0 +1,87 @@
+.cabecera-torneo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.detalle {
+  margin: 0.25rem 0 2rem;
+  color: var(--texto-suave);
+}
+
+h3 {
+  margin: 0 0 1rem;
+}
+
+.aviso {
+  color: var(--texto-suave);
+}
+
+.estado {
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 999px;
+  background: var(--borde);
+  color: var(--texto-suave);
+
+  &[data-estado='ABIERTO'] {
+    background: rgba(76, 175, 122, 0.15);
+    color: var(--exito);
+  }
+
+  &[data-estado='EN_CURSO'] {
+    background: rgba(200, 170, 110, 0.15);
+    color: var(--acento);
+  }
+}
+
+.clasificacion {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  overflow: hidden;
+
+  th,
+  td {
+    padding: 0.7rem 0.9rem;
+    text-align: center;
+  }
+
+  th {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--texto-suave);
+    border-bottom: 1px solid var(--borde);
+  }
+
+  tbody tr + tr {
+    border-top: 1px solid var(--borde);
+  }
+
+  .equipo {
+    text-align: left;
+  }
+}
+
+.posicion {
+  font-weight: 700;
+}
+
+.empate {
+  margin-left: 0.25rem;
+  color: var(--acento);
+}
+
+.tag {
+  display: inline-block;
+  min-width: 3rem;
+  font-weight: 700;
+  color: var(--acento);
+}

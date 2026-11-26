@@ -12,7 +12,7 @@
 <ul class="lista">
   @for (torneo of torneos(); track torneo.id) {
     <li>
-      <span class="nombre">{{ torneo.nombre }}</span>
+      <a class="nombre" [routerLink]="['/torneos', torneo.id]">{{ torneo.nombre }}</a>
       <span class="formato">{{ torneo.formato | formatoTorneo }}</span>
       <span class="estado" [attr.data-estado]="torneo.estado">{{ torneo.estado | estadoTorneo }}</span>
       

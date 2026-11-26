@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Torneo, CrearTorneoRequest } from '../models/torneo';
+import { FilaClasificacion } from '../models/clasificacion';
 
 @Injectable({ providedIn: 'root' })
 export class TorneoService {
@@ -16,5 +17,13 @@ export class TorneoService {
 
   crear(datos: CrearTorneoRequest): Observable<Torneo> {
     return this.http.post<Torneo>(this.url, datos);
+  }
+
+  obtener(id: number): Observable<Torneo> {
+    return this.http.get<Torneo>(`${this.url}/${id}`);
+  }
+
+  clasificacion(id: number): Observable<FilaClasificacion[]> {
+    return this.http.get<FilaClasificacion[]>(`${this.url}/${id}/clasificacion`);
   }
 }

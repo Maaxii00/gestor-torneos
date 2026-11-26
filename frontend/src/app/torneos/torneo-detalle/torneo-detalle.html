@@ -1,0 +1,53 @@
+@if (error()) {
+  <p class="mensaje-error">{{ error() }}</p>
+}
+
+@if (torneo(); as t) {
+  <div class="cabecera-torneo">
+    <h2>{{ t.nombre }}</h2>
+    <span class="estado" [attr.data-estado]="t.estado">{{ t.estado | estadoTorneo }}</span>
+  </div>
+  <p class="detalle">{{ t.formato | formatoTorneo }} · Organiza {{ t.organizador.nombre }}</p>
+
+  <h3>Clasificación</h3>
+
+  @if (t.estado === 'ABIERTO') {
+    <p class="aviso">El torneo aún no ha empezado.</p>
+  } @else {
+    <table class="clasificacion">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th class="equipo">Equipo</th>
+          <th title="Series jugadas">SJ</th>
+          <th title="Series ganadas">SG</th>
+          <th title="Series perdidas">SP</th>
+          <th title="Partidas ganadas">PG</th>
+          <th title="Partidas perdidas">PP</th>
+          <th title="Diferencia de partidas">Dif.</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (fila of filas(); track fila.equipo.id) {
+          <tr>
+            <td class="posicion">
+              {{ fila.posicion }}
+              @if (fila.empateSinResolver) {
+                <span class="empate" title="Empate sin resolver">=</span>
+              }
+            </td>
+            <td class="equipo">
+              <span class="tag">{{ fila.equipo.tag }}</span> {{ fila.equipo.nombre }}
+            </td>
+            <td>{{ fila.seriesJugadas }}</td>
+            <td><strong>{{ fila.seriesGanadas }}</strong></td>
+            <td>{{ fila.seriesPerdidas }}</td>
+            <td>{{ fila.partidasGanadas }}</td>
+            <td>{{ fila.partidasPerdidas }}</td>
+            <td>{{ fila.diferenciaDePartidas > 0 ? '+' : '' }}{{ fila.diferenciaDePartidas }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+}
