@@ -43,4 +43,9 @@ public class EquipoController {
     public EquipoResponse porTag(@PathVariable String tag) {
         return equipoService.buscarPorTag(tag);
     }
+
+    @GetMapping("/mios")
+    public List<EquipoResponse> mios(@AuthenticationPrincipal Long capitanId) {
+        return equipoService.deCapitan(capitanId);
+    }
 }

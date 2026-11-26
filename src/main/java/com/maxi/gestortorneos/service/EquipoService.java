@@ -62,4 +62,11 @@ public class EquipoService {
                         "No existe un equipo con el tag " + tag));
         return EquipoResponse.desde(equipo);
     }
+
+    @Transactional(readOnly = true)
+    public List<EquipoResponse> deCapitan(Long capitanId) {
+        return equipoRepository.findByCapitanId(capitanId).stream()
+                .map(EquipoResponse::desde)
+                .toList();
+    }
 }
