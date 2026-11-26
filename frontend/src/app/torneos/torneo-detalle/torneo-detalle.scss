@@ -85,3 +85,39 @@ h3 {
   font-weight: 700;
   color: var(--acento);
 }
+
+h3 {
+  margin-top: 2rem;
+}
+
+.inscritos {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  li {
+    padding: 0.4rem 0.8rem;
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+  }
+
+  .aviso {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+}
+
+.inscribir {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 420px;
+
+  select {
+    flex: 1;
+  }
+}

@@ -50,4 +50,34 @@
       </tbody>
     </table>
   }
+
+  <h3>Equipos inscritos ({{ inscripciones().length }})</h3>
+
+  <ul class="inscritos">
+    @for (inscripcion of inscripciones(); track inscripcion.id) {
+      <li><span class="tag">{{ inscripcion.equipo.tag }}</span> {{ inscripcion.equipo.nombre }}</li>
+    } @empty {
+      <li class="aviso">Todavía no hay equipos inscritos.</li>
+    }
+  </ul>
+
+  @if (t.estado === 'ABIERTO' && auth.logueado()) {
+    <div class="inscribir">
+      @if (equiposInscribibles().length > 0) {
+        <select [formControl]="equipoSeleccionado">
+          <option [ngValue]="null" disabled>Elige uno de tus equipos</option>
+          @for (equipo of equiposInscribibles(); track equipo.id) {
+            <option [ngValue]="equipo.id">{{ equipo.tag }} · {{ equipo.nombre }}</option>
+          }
+        </select>
+        <button (click)="inscribir()" [disabled]="equipoSeleccionado.invalid">Inscribir</button>
+      } @else {
+        <p class="aviso">No tienes equipos disponibles para inscribir.</p>
+      }
+    </div>
+
+    @if (errorInscripcion()) {
+      <p class="mensaje-error">{{ errorInscripcion() }}</p>
+    }
+  }
 }
