@@ -6,7 +6,7 @@ export interface Torneo {
   nombre: string;
   estado: EstadoTorneo;
   formato: FormatoTorneo;
-  organizador: { id: number; email: string; nombre: string; rol: string };
+  organizador: { id: number; nombre: string };
   creadoEn: string;
 }
 
